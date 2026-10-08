@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <title>🌿 Šiukšlių iššūkis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════ LOGIN ══════════════════════════════ -->
+<div id="login-screen" class="screen active">
+  <div class="menu-card">
+    <div class="login-hero">
+      <div class="login-icon-ring">🌿</div>
+      <h1 class="game-title">Šiukšlių iššūkis</h1>
+      <p class="subtitle">Rūšiuok. Mokykis. Gelbėk planetą.</p>
+    </div>
+    <div id="saved-users-row"></div>
+    <div class="login-divider"><span>ARBA ĮVESK VARDĄ</span></div>
+    <div class="input-group">
+      <span class="input-icon">👤</span>
+      <input id="usernameInput" placeholder="Vartotojo vardas" autocomplete="username">
+    </div>
+    <div class="login-btn-row">
+      <button class="btn-login"    onclick="login()">🔑 Prisijungti</button>
+      <button class="btn-register" onclick="register()">✨ Registruotis</button>
+    </div>
+    <div id="login-msg"></div>
+    <div class="footer-text">Vilniaus Simono Stanevičiaus Progimnazija · 7c klasė · ŽMI grupė</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ START ══════════════════════════════ -->
+<div id="start-screen" class="screen">
+  <div class="menu-card">
+
+    <!-- Player badge -->
+    <div class="player-badge" id="player-badge">
+      <div class="player-avatar" id="player-avatar-el" onclick="openAvatarPicker()" title="Pakeisti avatarą">
+        🌿
+        <span class="avatar-edit-hint">✏️</span>
+      </div>
+      <div class="player-info">
+        <div class="player-name" id="player-badge-name">Žaidėjas</div>
+        <div class="player-stats" id="player-badge-stats">0 XP · 0 žaidimų</div>
+      </div>
+      <button class="player-logout" onclick="logout()">⬅ Išeiti</button>
+    </div>
+
+    <div class="section-label">🎮 Pasirink sunkumą</div>
+
+    <!-- Level buttons -->
+    <div class="level-cards">
+      <button class="level-btn easy" onclick="startGame('easy')">
+        <div class="level-btn-icon">🌱</div>
+        <div class="level-btn-body">
+          <div class="level-btn-name">Lengvas</div>
+          <div class="level-btn-desc">Pradedančiajam · ~17 daiktų</div>
+        </div>
+        <div class="level-btn-xp">+4 XP</div>
+      </button>
+      <button class="level-btn medium" onclick="startGame('medium')">
+        <div class="level-btn-icon">⚡</div>
+        <div class="level-btn-body">
+          <div class="level-btn-name">Vidutinis</div>
+          <div class="level-btn-desc">Pažengusiems · ~21 daiktas</div>
+        </div>
+        <div class="level-btn-xp">+8 XP</div>
+      </button>
+      <button class="level-btn hard" onclick="startGame('hard')">
+        <div class="level-btn-icon">💀</div>
+        <div class="level-btn-body">
+          <div class="level-btn-name">Sunkus</div>
+          <div class="level-btn-desc">Ekspertams · ~32 daiktai</div>
+        </div>
+        <div class="level-btn-xp">+14 XP</div>
+      </button>
+      <button class="level-btn timed" onclick="startGame('timed')">
+        <div class="level-btn-icon">💨</div>
+        <div class="level-btn-body">
+          <div class="level-btn-name">Laikinas</div>
+          <div class="level-btn-desc">60 sekundžių · kiek gali?</div>
+        </div>
+        <div class="level-btn-xp">+12 XP</div>
+      </button>
+    </div>
+
+    <!-- Action row — achievements + leaderboard + music -->
+    <div class="action-row">
+      <button class="achievements-btn" onclick="openAchievements()">🏆 Pasiekimai</button>
+      <button class="leaderboard-btn"  onclick="openLeaderboard()">📊 Lyderiai</button>
+      <button class="music-toggle-btn" onclick="cycleMusicState()">🔊 Muzika</button>
+    </div>
+
+    <!-- XP bar -->
+    <div id="xp-bar-container-main"><div id="xp-bar-main"></div></div>
+    <div id="xp-text-main"></div>
+
+    <div class="footer-text">Atliko Vilniaus Simono Stanevičiaus Progimnazijos 7c klasės ŽMI grupė</div>
+
+    <!-- Sponsors -->
+    <div class="sponsor-block">
+      <div class="sponsor-label">Palaiko / Organizatoriai:</div>
+      <div class="sponsor-logos">
+        <a href="https://zaliasvilnius.lt" target="_blank" rel="noopener" title="Žalias Vilnius">
+          <div class="sponsor-logo-pill">
+            <img src="https://zaliasvilnius.lt/wp-content/uploads/2024/08/logo.svg" alt="Žalias Vilnius" class="sponsor-logo"
+              onerror="this.closest('.sponsor-logo-pill').style.display='none'">
+          </div>
+        </a>
+        <a href="https://vasa.prisijungti.lt" target="_blank" rel="noopener" title="VASA">
+          <div class="sponsor-logo-pill">
+            <img src="https://vasa.prisijungti.lt/wp-content/uploads/sites/136/2025/08/vasa-savinarna-prisijungti-logo.png" alt="VASA" class="sponsor-logo"
+              onerror="this.closest('.sponsor-logo-pill').style.display='none'">
+          </div>
+        </a>
+      </div>
+      <div class="sponsor-thanks">Ačiū organizatoriams ir VASA už šiukšledėžes bei rūpestį aplinka.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ GAME ══════════════════════════════ -->
+<div id="game" class="screen">
+  <h2 id="level-title"></h2>
+  <div id="trash" class="trash-container"></div>
+  <div id="bins" class="bin-grid"></div>
+  <div class="game-buttons">
+    <button class="rewind-btn"      onclick="previousTrash()">⏪ Ankstesnė</button>
+    <button class="music-toggle-btn" onclick="cycleMusicState()">🔊 Muzika</button>
+    <button class="finish-btn"      onclick="tryFinishGame()">🏁 Baigti</button>
+  </div>
+  <div id="timer-container" style="display:none;">
+    ⏱ Laikas: <span id="timer">60</span>s
+  </div>
+</div>
+
+<!-- ══════════════════════════════ RESULT ══════════════════════════════ -->
+<div id="result" class="screen">
+  <div class="result-overlay">
+    <h2>🎯 Rezultatas</h2>
+    <pre id="score"></pre>
+    <div id="mistakes" class="mistakes-list"></div>
+    <div style="margin-top:14px;">
+      <div id="xp-bar-container">
+        <div id="xp-bar"></div>
+      </div>
+      <div id="xp-text" style="margin-top:6px;font-size:12px;color:rgba(255,255,255,0.55);font-weight:600;text-align:center;"></div>
+    </div>
+    <button class="restart-btn" onclick="resetGame()">🔄 Žaisti dar kartą</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ ACHIEVEMENTS ══════════════════════════════ -->
+<div id="achievements-modal" class="screen">
+  <div class="result-overlay">
+    <h2>🏆 Pasiekimai</h2>
+    <ul id="achievements-list"></ul>
+    <button class="restart-btn" onclick="closeAchievements()">✖ Uždaryti</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ LEADERBOARD ══════════════════════════════ -->
+<div id="leaderboard-modal" class="screen">
+  <div class="result-overlay">
+    <h2>📊 Lyderių lentelė</h2>
+
+    <!-- Sort tabs -->
+    <div class="lb-tabs">
+      <button class="lb-tab" data-key="xp"           onclick="renderLeaderboard('xp')">🏅 XP</button>
+      <button class="lb-tab" data-key="games"         onclick="renderLeaderboard('games')">🎮 Žaidimai</button>
+      <button class="lb-tab" data-key="perfectGames"  onclick="renderLeaderboard('perfectGames')">⭐ Tobuli</button>
+      <button class="lb-tab" data-key="maxCombo"      onclick="renderLeaderboard('maxCombo')">🔥 Combo</button>
+      <button class="lb-tab" data-key="totalCorrect"  onclick="renderLeaderboard('totalCorrect')">♻️ Teisingi</button>
+    </div>
+
+    <div id="lb-list"></div>
+
+    <button class="restart-btn" onclick="closeLeaderboard()" style="margin-top:14px;">✖ Uždaryti</button>
+  </div>
+</div>
+
+<canvas id="confetti"></canvas>
+<audio id="bg-music" src="music.mp3" loop></audio>
+
+<script src="script.js"></script>
+<script>
+  function updatePlayerBadge() {
+    if (!currentUser) return;
+    document.getElementById("player-badge-name").textContent  = currentUser.username;
+    document.getElementById("player-badge-stats").textContent =
+      `${currentUser.xp} XP · ${currentUser.games} žaidimų · ${currentUser.perfectGames} tobulų`;
+    const av = document.getElementById("player-avatar-el");
+    if (av) {
+      const tn = av.childNodes[0];
+      if (tn && tn.nodeType === Node.TEXT_NODE) tn.textContent = currentUser.avatar || "🌿";
+    }
+  }
+
+  // Wrap switchScreen to keep the player badge in sync
+  const _origSwitch = switchScreen;
+  window.switchScreen = function (id) {
+    _origSwitch(id);
+    if (id === "start-screen") updatePlayerBadge();
+    if (id === "leaderboard-modal") renderLeaderboard();
+    document.querySelectorAll(".music-toggle-btn").forEach(b => {
+      b.textContent = ["🔇 Muzika","🔉 Muzika","🔊 Muzika"][typeof musicState !== "undefined" ? musicState : 2];
+    });
+  };
+
+  function logout() {
+    currentUser = null;
+    switchScreen("login-screen");
+    renderSavedUsers();
+  }
+</script>
+</body>
+</html>
